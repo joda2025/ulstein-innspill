@@ -18,6 +18,15 @@
       const [error, setError] = React.useState('');
       const [copySuccess, setCopySuccess] = React.useState('');
 
+      React.useEffect(() => {
+        if (letter) {
+          const letterElement = document.querySelector('.letter-section');
+          if (letterElement) {
+            letterElement.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, [letter]);
+
       const generateLetter = () => {
         const today = new Date().toLocaleDateString('no-NO');
         const letterContent = `Innspill til Ulstein kommunes sentrumsplan
@@ -44,18 +53,18 @@ ${name}`;
           window.location.href = mailtoLink;
           setTimeout(() => {
             if (document.activeElement.tagName !== 'A') {
-              setError('Kunne ikke åpne e-postklienten. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til johannesdahl@gmail.com.');
+              setError('Kunne ikke åpne e-postklienten. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til postmottak@ulstein.kommune.no.');
             }
           }, 1500);
         } catch (e) {
-          setError('Feil ved åpning av e-postklient. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til johannesdahl@gmail.com.');
+          setError('Feil ved åpning av e-postklient. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til postmottak@ulstein.kommune.no.');
         }
       };
 
       const copyToClipboard = () => {
         try {
           navigator.clipboard.writeText(letter).then(() => {
-            setCopySuccess('Brevet er kopiert! Lim det inn i din e-posttjeneste og send til johannesdahl@gmail.com.');
+            setCopySuccess('Brevet er kopiert! Lim det inn i din e-posttjeneste og send til postmottak@ulstein.kommune.no.');
             setError('');
             setTimeout(() => setCopySuccess(''), 5000);
           }).catch(() => {
@@ -147,7 +156,7 @@ ${name}`;
             Generer brev
           </button>
           {letter && (
-            <div className="mt-6">
+            <div className="mt-6 letter-section">
               <h2 className="text-lg font-semibold text-gray-800 mb-2">Ditt brev</h2>
               <pre className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700 whitespace-pre-wrap">
                 {letter}
@@ -175,7 +184,10 @@ ${name}`;
                   onClick={downloadPDF}
                   className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition"
                 >
-              
+                  Last ned som tekstfil
+                </button>
+              </div>
+              <p className="mt-4 text-gray-600">
                 Klikk "Kopier brev" for å kopiere brevet, lim det inn i din e-posttjeneste (f.eks. Gmail), og send til postmottak@ulstein.kommune.no. Alternativt, prøv "Send brev via e-post" for å bruke din e-postklient.
               </p>
             </div>
