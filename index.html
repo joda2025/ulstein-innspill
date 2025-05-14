@@ -8,26 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .slider {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
-    .slides {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-    .slide {
-      min-width: 100%;
-      box-sizing: border-box;
-    }
-    .slide img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-    }
-  </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div id="root"></div>
@@ -37,22 +17,6 @@
       const [letter, setLetter] = React.useState('');
       const [error, setError] = React.useState('');
       const [copySuccess, setCopySuccess] = React.useState('');
-      const [currentSlide, setCurrentSlide] = React.useState(0);
-
-      const images = [
-        { src: "before_blocking_view.jpg", caption: "Før: Ulsteinvik før potensiell utbygging" },
-        { src: "after_blocking_view.jpg", caption: "Etter: Utsikt med høghus" },
-        { src: "current_sea_view.jpg", caption: "Dagens sjøutsikt" },
-        { src: "proposed_building_site.jpg", caption: "Foreslått byggetomt (SF7/SF15)" },
-      ];
-
-      const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % images.length);
-      };
-
-      const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
-      };
 
       const generateLetter = () => {
         const today = new Date().toLocaleDateString('no-NO');
@@ -121,32 +85,48 @@ ${name}`;
             <img src="ulstein_kommune_logo.png" alt="Ulstein Kommune Logo" className="h-16 mx-auto mb-4" />
             <h1 className="text-3xl font-bold text-gray-800 mb-4">Bevar sjøutsikten i Ulsteinvik sentrum!</h1>
             <p className="text-gray-600 mb-6">
-              Områdeplanen for Ulsteinvik sentrum skal gjere byrommet vårt betre – med eit nytt bytorg ved kulturallmenningen, ein oppgradert hamnepromenade og gode gang- og sykkelvegar (jf. planprogrammet, s. 8 og s. 6). Men vi må stoppe fortettinga som kan "bygge oss inne"! Planen tillater høghus på tomtene <span className="font-semibold">SF7</span> og <span className="font-semibold">SF15</span>, som trugar sjøutsikten (jf. s. 8 om byggehøgder). Vi foreslår at <span className="font-semibold">SF7</span> blir ein stor felles park, slik at innbyggjarane kan nyte sjøfronten. Sjå bileta og send inn ditt innspill no!
+              Områdeplanen for Ulsteinvik sentrum lovar betre byrom med eit nytt bytorg og hamnepromenade (jf. s. 8), men fortettinga trugar sjøutsikten! Høghus på <span className="font-semibold">SF7</span> og <span className="font-semibold">SF15</span> kan "bygge oss inne" (jf. s. 8 om byggehøgder). Vi foreslår at <span className="font-semibold">SF7</span> blir ein felles park, medan <span className="font-semibold">SF15</span> må vurderast for å bevare utsikten. Sjå bileta og send inn ditt innspill i dag!
             </p>
           </div>
 
-          {/* Slider for bilder */}
-          <div className="slider mb-8">
-            <div className="slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-              {images.map((image, index) => (
-                <div className="slide" key={index}>
-                  <img src={image.src} alt={image.caption} />
-                  <p className="text-center text-gray-600 text-sm mt-2">{image.caption}</p>
-                </div>
-              ))}
+          {/* SF7-seksjon */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF7 – Foreslått som felles park</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="text-center">
+                <img src="SF7_1" alt="SF7 før utbygging" className="w-full h-48 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Før: SF7 før utbygging</p>
+              </div>
+              <div className="text-center">
+                <img src="SF7_2" alt="SF7 under utbygging" className="w-full h-48 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Under: SF7 under utvikling</p>
+              </div>
+              <div className="text-center">
+                <img src="SF7_3" alt="SF7 etter utbygging" className="w-full h-48 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Etter: SF7 med potensiell utbygging</p>
+              </div>
             </div>
-            <button
-              onClick={prevSlide}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
-            >
-              &lt;
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
-            >
-              &gt;
-            </button>
+            <p className="text-gray-600 mt-2">Vi foreslår at SF7 blir ein felles park for å bevare sjøutsikten (jf. s. 8).</p>
+          </div>
+
+          {/* SF15-seksjon */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF15 – Trugar sjøutsikten</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="text-center">
+                <img src="SF15_1" alt="SF15 før utbygging" className="w-full h-48 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Før: SF15 før utbygging</p>
+              </div>
+              <div className="text-center">
+                <img src="SF15_2" alt="SF15 under utbygging" className="w-full h-48 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Under: SF15 under utvikling</p>
+              </div>
+              <div className="text-center">
+                <img src="SF15_3" alt="SF15 etter utbygging" className="w-full h-48 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Etter: SF15 med potensiell utbygging</p>
+              </div>
+            </div>
+            <p className="text-gray-600 mt-2">Vi ber om at SF15 vurderast for å unngå tap av sjøutsikt (jf. s. 8).</p>
           </div>
 
           {/* Eksisterende navnefelt og brevfunksjonalitet */}
