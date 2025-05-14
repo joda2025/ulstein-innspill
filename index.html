@@ -8,6 +8,26 @@
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .slide img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
   <div id="root"></div>
@@ -17,6 +37,22 @@
       const [letter, setLetter] = React.useState('');
       const [error, setError] = React.useState('');
       const [copySuccess, setCopySuccess] = React.useState('');
+      const [currentSlide, setCurrentSlide] = React.useState(0);
+
+      const images = [
+        { src: "before_blocking_view.jpg", caption: "Før: Ulsteinvik før potensiell utbygging" },
+        { src: "after_blocking_view.jpg", caption: "Etter: Utsikt med høghus" },
+        { src: "current_sea_view.jpg", caption: "Dagens sjøutsikt" },
+        { src: "proposed_building_site.jpg", caption: "Foreslått byggetomt (SF7/SF15)" },
+      ];
+
+      const nextSlide = () => {
+        setCurrentSlide((prev) => (prev + 1) % images.length);
+      };
+
+      const prevSlide = () => {
+        setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
+      };
 
       const generateLetter = () => {
         const today = new Date().toLocaleDateString('no-NO');
@@ -79,11 +115,41 @@ ${name}`;
       };
 
       return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Bevar sjøutsikten i Ulsteinvik sentrum!</h1>
-          <p className="text-gray-600 mb-4">
-            Den nye sentrumsplanen for Ulsteinvik vil tillate høghus på tomtene <span className="font-semibold">SF7</span> og <span className="font-semibold">SF15</span>, som kan stenge sjøutsikten vår for alltid. Vi foreslår at <span className="font-semibold">SF7</span> blir ein stor felles park eller eit åpent område, slik at innbyggjarane kan nyte sjøfronten. <span className="font-semibold">Ikke la Ulsteinvik miste sin maritime sjel!</span> Skriv inn navnet ditt under og send inn ditt innspill for å bevare sjøutsikten i sentrum.
-          </p>
+        <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+          {/* Hero-seksjon med logo, overskrift og introduksjon */}
+          <div className="text-center mb-8">
+            <img src="ulstein_kommune_logo.png" alt="Ulstein Kommune Logo" className="h-16 mx-auto mb-4" />
+            <h1 className="text-3xl font-bold text-gray-800 mb-4">Bevar sjøutsikten i Ulsteinvik sentrum!</h1>
+            <p className="text-gray-600 mb-6">
+              Områdeplanen for Ulsteinvik sentrum skal gjere byrommet vårt betre – med eit nytt bytorg ved kulturallmenningen, ein oppgradert hamnepromenade og gode gang- og sykkelvegar (jf. planprogrammet, s. 8 og s. 6). Men vi må stoppe fortettinga som kan "bygge oss inne"! Planen tillater høghus på tomtene <span className="font-semibold">SF7</span> og <span className="font-semibold">SF15</span>, som trugar sjøutsikten (jf. s. 8 om byggehøgder). Vi foreslår at <span className="font-semibold">SF7</span> blir ein stor felles park, slik at innbyggjarane kan nyte sjøfronten. Sjå bileta og send inn ditt innspill no!
+            </p>
+          </div>
+
+          {/* Slider for bilder */}
+          <div className="slider mb-8">
+            <div className="slides" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {images.map((image, index) => (
+                <div className="slide" key={index}>
+                  <img src={image.src} alt={image.caption} />
+                  <p className="text-center text-gray-600 text-sm mt-2">{image.caption}</p>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
+            >
+              &lt;
+            </button>
+            <button
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full"
+            >
+              &gt;
+            </button>
+          </div>
+
+          {/* Eksisterende navnefelt og brevfunksjonalitet */}
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
               Ditt navn
