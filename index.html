@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="no">
 <head>
   <meta charset="UTF-8">
@@ -81,11 +42,11 @@ ${name}`;
           window.location.href = mailtoLink;
           setTimeout(() => {
             if (document.activeElement.tagName !== 'A') {
-              setError('Kunne ikke åpne e-postklienten. Bruk "Kopier brev" og lim det inn i din e-posttjeneste (f.eks. Gmail) til johannesdahl@gmail.com.');
+              setError('Kunne ikke åpne e-postklienten. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til johannesdahl@gmail.com.');
             }
-          }, 1000);
+          }, 1500);
         } catch (e) {
-          setError('Feil ved forsøk på å åpne e-postklienten. Bruk "Kopier brev" og lim det inn i din e-posttjeneste til johannesdahl@gmail.com.');
+          setError('Feil ved åpning av e-postklient. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til johannesdahl@gmail.com.');
         }
       };
 
@@ -94,12 +55,13 @@ ${name}`;
           navigator.clipboard.writeText(letter).then(() => {
             setCopySuccess('Brevet er kopiert! Lim det inn i din e-posttjeneste og send til johannesdahl@gmail.com.');
             setError('');
+            setTimeout(() => setCopySuccess(''), 5000); // Clear message after 5 seconds
           }).catch(() => {
-            setError('Kunne ikke kopiere brevet. Marker teksten manuelt, kopier den, og lim den inn i din e-posttjeneste.');
+            setError('Kunne ikke kopiere. Marker brevet manuelt, kopier, og lim inn i din e-posttjeneste.');
             setCopySuccess('');
           });
         } catch (e) {
-          setError('Kunne ikke kopiere brevet. Marker teksten manuelt, kopier den, og lim den inn i din e-posttjeneste.');
+          setError('Kunne ikke kopiere. Marker brevet manuelt, kopier, og lim inn i din e-posttjeneste.');
           setCopySuccess('');
         }
       };
@@ -154,16 +116,16 @@ ${name}`;
               )}
               <div className="flex flex-wrap gap-4 mt-4">
                 <button
-                  onClick={sendEmail}
-                  className="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition"
-                >
-                  Send brev via e-post
-                </button>
-                <button
                   onClick={copyToClipboard}
                   className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
                 >
                   Kopier brev
+                </button>
+                <button
+                  onClick={sendEmail}
+                  className="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition"
+                >
+                  Send brev via e-post
                 </button>
                 <button
                   onClick={downloadPDF}
@@ -173,7 +135,7 @@ ${name}`;
                 </button>
               </div>
               <p className="mt-4 text-gray-600">
-                Klikk "Send brev via e-post" for å sende til johannesdahl@gmail.com via din e-postklient. Hvis dette ikke fungerer, klikk "Kopier brev" og lim det inn i din e-posttjeneste (f.eks. Gmail). Du kan også laste ned brevet som tekstfil.
+                Klikk "Kopier brev" for å kopiere brevet, lim det inn i din e-posttjeneste (f.eks. Gmail), og send til johannesdahl@gmail.com. Alternativt, prøv "Send brev via e-post" for å bruke din e-postklient, eller last ned som tekstfil.
               </p>
             </div>
           )}
