@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="nn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Innspill til Ulstein kommunes sentrumsplan</title>
+  <title>Innspel til Ulstein kommune sin sentrumsplan</title>
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
@@ -28,17 +28,17 @@
       }, [letter]);
 
       const generateLetter = () => {
-        const today = new Date().toLocaleDateString('no-NO');
-        const letterContent = `Innspill til Ulstein kommunes sentrumsplan
+        const today = new Date().toLocaleDateString('nn-NO');
+        const letterContent = `Innspel til Ulstein kommune sin sentrumsplan
 Dato: ${today}
 
-Kjære Ulstein kommune,
+Kjøre Ulstein kommune,
 
-Eg, ${name}, er innbyggjar i Ulsteinvik og er sterkt bekymra for den nye sentrumsplanen som tillater høghus på tomtene SF7 og SF15. Desse bygga vil blokkere sjøutsikten i sentrum, ein uvurderleg kvalitet i vårt lokalsamfunn som områdeplanen (PlanID 20210001, § 1) vektlegg. Sjøfronten er hjartet i Ulsteinviks maritime identitet, og vi kan ikkje akseptere at den forsvinn.
+Eg, ${name}, er innbyggjar i Ulsteinvik og er sterkt bekymra over den nye sentrumsplanen som tillater høghus på tomtene SF7 og SF15. Desse bygga vil blokkere sjøutsikta i sentrum, ein uvurderleg kvalitet i vårt lokalsamfunn som områdeplanen (PlanID 20210001, § 1) vektlegg. Sjøfronten er hjartet i Ulsteinvik sin maritime identitet, og vi kan ikkje akseptere at den forsvinn.
 
-Eg foreslår at tomta SF7 blir omgjort til ein stor felles park eller eit åopent område, slik at innbyggjarane kan nyte sjøen. Eg ber kommunen revurdere planen for SF7 og SF15 og prioritere løsninger som bevarer sjøutsikten og tilgangen til sjøfronten. Vennligst bekreft mottak av dette innspillet og hold meg oppdatert på høyringsprosessen.
+Eg foreslår at tomta SF7 blir omgjort til ein stor felles park eller eit ope område, slik at både innbyggjarar og tilreisande kan nyte utsyn mot sjøen. Eg ber kommunen revurdere planen for SF7 og SF15 og prioritere løysingar som bevarer sjøutsikta og tilgangen til sjøfronten. Vennligst bekreft mottak av dette innspelet og hald meg oppdatert på høyringsprosessen.
 
-Med vennleg helsing,
+Med venleg helsing,
 ${name}`;
         setLetter(letterContent);
         setError('');
@@ -47,32 +47,32 @@ ${name}`;
 
       const sendEmail = () => {
         try {
-          const subject = encodeURIComponent("Innspill til ny sentrumsplan");
+          const subject = encodeURIComponent("Innspel til ny sentrumsplan");
           const body = encodeURIComponent(letter.trim());
           const mailtoLink = `mailto:johannesdahl@gmail.com?subject=${subject}&body=${body}`;
           window.location.href = mailtoLink;
           setTimeout(() => {
             if (document.activeElement.tagName !== 'A') {
-              setError('Kunne ikke åpne e-postklienten. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til postmottak@ulstein.kommune.no.');
+              setError('Klarte ikkje å opna e-postklienten. Klikk "Kopier brev", lim inn i e-posttenesta di (t.d. Gmail), og send til postmottak@ulstein.kommune.no.');
             }
           }, 1500);
         } catch (e) {
-          setError('Feil ved åpning av e-postklient. Klikk "Kopier brev", lim inn i din e-post (f.eks. Gmail), og send til postmottak@ulstein.kommune.no.');
+          setError('Feil ved opning av e-postklient. Klikk "Kopier brev", lim inn i e-posttenesta di (t.d. Gmail), og send til postmottak@ulstein.kommune.no.');
         }
       };
 
       const copyToClipboard = () => {
         try {
           navigator.clipboard.writeText(letter).then(() => {
-            setCopySuccess('Brevet er kopiert! Lim det inn i din e-posttjeneste og send til postmottak@ulstein.kommune.no.');
+            setCopySuccess('Brevet er kopiert! Lim det inn i e-posttenesta di og send til postmottak@ulstein.kommune.no.');
             setError('');
             setTimeout(() => setCopySuccess(''), 5000);
           }).catch(() => {
-            setError('Kunne ikke kopiere. Marker brevet manuelt, kopier, og lim inn i din e-posttjeneste.');
+            setError('Klarte ikkje å kopiera. Merk brevet manuelt, kopier, og lim inn i e-posttenesta di.');
             setCopySuccess('');
           });
         } catch (e) {
-          setError('Kunde ikke kopiere. Marker brevet manuelt, kopier, og lim inn i din e-posttjeneste.');
+          setError('Klarte ikkje å kopiera. Merk brevet manuelt, kopier, og lim inn i e-posttenesta di.');
           setCopySuccess('');
         }
       };
@@ -81,7 +81,7 @@ ${name}`;
         const element = document.createElement('a');
         const file = new Blob([letter], { type: 'text/plain' });
         element.href = URL.createObjectURL(file);
-        element.download = 'innspill_ulstein_kommune.txt';
+        element.download = 'innspel_ulstein_kommune.txt';
         document.body.appendChild(element);
         element.click();
         document.body.removeChild(element);
@@ -89,14 +89,14 @@ ${name}`;
 
       return (
         <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Bevar sjøutsikten i Ulsteinvik sentrum!</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">Bevar sjøutsikta i Ulsteinvik sentrum!</h1>
           <p className="text-gray-600 mb-4">
-            Den nye sentrumsplanen for Ulsteinvik vil tillate høghus på tomtene <span className="font-semibold">SF7</span> og <span className="font-semibold">SF15</span>, som kan stenge sjøutsikten vår for alltid. Vi foreslår at <span className="font-semibold">SF7</span> blir ein stor felles park eller eit åpent område, slik at innbyggjarane kan nyte sjøfronten. <span className="font-semibold">Ikke la Ulsteinvik miste sin maritime sjel!</span> Skriv inn navnet ditt under og send inn ditt innspill for å bevare sjøutsikten i sentrum.
+            Den nye sentrumsplanen for Ulsteinvik vil tillata høghus på tomtene <span className="font-semibold">SF7</span> og <span className="font-semibold">SF15</span>, som kan stengja sjøutsikta vår for alltid. Vi foreslår at <span className="font-semibold">SF7</span> blir ein stor felles park eller eit ope område, slik at innbyggjarane kan nyta sjøfronten. <span className="font-semibold">Ikkje la Ulsteinvik mista sin maritime sjel!</span> Skriv inn namnet ditt nedanfor og send inn innspela dine for å bevara sjøutsikta i sentrum.
           </p>
 
           {/* SF7-seksjon */}
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF7 – Trugar sjøutsikten</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF7 – Trugar sjøutsikta</h2>
             <div className="grid grid-cols-1 gap-4">
               <div className="text-center">
                 <img src="SF7_4.png" alt="SF7 Dagens utsikt mot fjorden" className="w-full h-150 object-cover rounded-lg mb-2" />
@@ -111,12 +111,12 @@ ${name}`;
                 <p className="text-gray-600 text-sm">Etter: SF7 med potensiell utbygging</p>
               </div>
             </div>
-            <p className="text-gray-600 mt-2">Vi foreslår at SF7 blir ein felles park uten bygg for å bevare sjøutsikten (jf. s. 8) illustrasjonene er tatt fra kommunens egne sider.</p>
+            <p className="text-gray-600 mt-2">Vi foreslår at SF7 blir ein felles park utan bygg for å bevara sjøutsikta (jf. s. 8). Illustrasjonane er henta frå kommunen sine eigne sider.</p>
           </div>
 
           {/* SF15-seksjon */}
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF15 – Trugar sjøutsikten </h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF15 – Trugar sjøutsikta</h2>
             <div className="grid grid-cols-1 gap-4">
               <div className="text-center">
                 <img src="SF15_2.JPG" alt="SF15 før utbygging" className="w-full h-150 object-cover rounded-lg mb-2" />
@@ -131,13 +131,13 @@ ${name}`;
                 <p className="text-gray-600 text-sm">Etter: SF15 med potensiell utbygging</p>
               </div>
             </div>
-            <p className="text-gray-600 mt-2">Vi ber om at SF15 vurderast for å unngå tap av sjøutsikt (jf. s. 8). Illustrasjonene er tatt fra kommunens egne sider.</p>
+            <p className="text-gray-600 mt-2">Vi ber om at SF15 blir vurdert for å unngå tap av sjøutsikt (jf. s. 8). Illustrasjonane er henta frå kommunen sine eigne sider.</p>
           </div>
 
           {/* Navnefelt og brevfunksjonalitet */}
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
-              Ditt navn
+              Namnet ditt
             </label>
             <input
               id="name"
@@ -145,7 +145,7 @@ ${name}`;
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Skriv inn ditt fulle navn"
+              placeholder="Skriv inn heile namnet ditt"
             />
           </div>
           <button
@@ -157,7 +157,7 @@ ${name}`;
           </button>
           {letter && (
             <div className="mt-6 letter-section">
-              <h2 className="text-lg font-semibold text-gray-800 mb-2">Ditt brev</h2>
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">Brevet ditt</h2>
               <pre className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700 whitespace-pre-wrap">
                 {letter}
               </pre>
@@ -188,7 +188,7 @@ ${name}`;
                 </button>
               </div>
               <p className="mt-4 text-gray-600">
-                Klikk "Kopier brev" for å kopiere brevet, lim det inn i din e-posttjeneste (f.eks. Gmail), og send til postmottak@ulstein.kommune.no. Alternativt, prøv "Send brev via e-post" for å bruke din e-postklient.
+                Klikk "Kopier brev" for å kopiera brevet, lim det inn i e-posttenesta di (t.d. Gmail), og send til postmottak@ulstein.kommune.no. Eller prøv "Send brev via e-post" for å bruka e-postklienten din.
               </p>
             </div>
           )}
