@@ -42,7 +42,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Innspel til Ulstein kommune sin sentrumsplan</title>
+  <title>Innspel til Ulstein kommune sin sentrumsplan - Testside</title>
   <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.20.15/babel.min.js"></script>
@@ -197,4 +197,97 @@ Med venleg helsing,
                 <p className="text-gray-600 text-sm">Før: SF7 Dagens utsikt</p>
               </div>
               <div className="text-center">
-                <img src="SF7_
+                <img src="SF7_6.JPG" alt="SF7 med potensiell utbygging" className="w-full h-80 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Etter: SF7 med potensiell utbygging</p>
+              </div>
+            </div>
+            <p className="text-gray-600 mt-2">Vi foreslår at SF7 blir ein felles park utan bygg for å bevara sjøutsikta (jf. s. 8). Illustrasjonane er henta frå kommunen sine eigne sider.</p>
+          </div>
+
+          {/* SF15-seksjon */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">SF15 – Trugar sjøutsikta</h2>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="text-center">
+                <img src="SF15_2.JPG" alt="SF15 før utbygging" className="w-full h-150 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Før: SF15 Dagens utsikt mot sentrum</p>
+              </div>
+              <div className="text-center">
+                <img src="SF15_3.JPG" alt="SF15 Dagens utsikt mot sentrum" className="w-full h-80 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Før: SF15 Dagens utsikt mot sentrum</p>
+              </div>
+              <div className="text-center">
+                <img src="SF15_4.JPG" alt="SF15 med potensiell utbygging" className="w-full h-80 object-cover rounded-lg mb-2" />
+                <p className="text-gray-600 text-sm">Etter: SF15 med potensiell utbygging</p>
+              </div>
+            </div>
+            <p className="text-gray-600 mt-2">Vi ber om at SF15 blir vurdert for å unngå tap av sjøutsikt (jf. s. 8). Illustrasjonane er henta frå kommunen sine eigne sider.</p>
+          </div>
+
+          {/* Navnefelt og brevfunksjonalitet */}
+          <div className="mb-4">
+            <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
+              Namnet ditt
+            </label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Skriv inn heile namnet ditt"
+            />
+          </div>
+          <button
+            onClick={generateLetter}
+            className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
+            disabled={!name.trim()}
+          >
+            Generer brev
+          </button>
+          {letter && (
+            <div className="mt-6 letter-section">
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">Brevet ditt</h2>
+              <pre className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700 whitespace-pre-wrap">
+                {letter}
+              </pre>
+              {error && (
+                <p className="mt-2 text-red-600">{error}</p>
+              )}
+              {copySuccess && (
+                <p className="mt-2 text-green-600">{copySuccess}</p>
+              )}
+              <div className="flex flex-wrap gap-4 mt-4">
+                <button
+                  onClick={copyToClipboard}
+                  className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
+                >
+                  Kopier brev
+                </button>
+                <button
+                  onClick={sendEmail}
+                  className="bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition"
+                >
+                  Send brev via e-post
+                </button>
+                <button
+                  onClick={downloadPDF}
+                  className="bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 transition"
+                >
+                  Last ned som tekstfil
+                </button>
+              </div>
+              <p className="mt-4 text-gray-600">
+                Klikk "Kopier brev" for å kopiera brevet, lim det inn i e-posttenesta di (t.d. Gmail), og send til postmottak@ulstein.kommune.no. Eller prøv "Send brev via e-post" for å bruka e-postklienten din.
+              </p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
